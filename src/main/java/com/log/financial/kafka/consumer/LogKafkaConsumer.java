@@ -2,6 +2,7 @@ package com.log.financial.kafka.consumer;
 
 import com.log.financial.model.entity.Log;
 import com.log.financial.repository.LogRepository;
+import com.log.financial.service.websocket.LogWebSocketPublisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
@@ -16,16 +17,24 @@ public class LogKafkaConsumer {
     @Autowired
     private LogRepository logRepository;
 
+    @Autowired
+    private LogWebSocketPublisher logWebSocketPublisher;
+
     @KafkaListener(topics = "financial-logs", groupId = "financial-log-group")
     public void consume(String linha) {
         Log log = parseLogLine(linha);
         if (log != null) {
-            logRepository.save(log);
+            try {
+                logWebSocketPublisher.publishLog(log);
+                logRepository.save(log);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
     private Log parseLogLine(String line) {
-        Pattern pattern = Pattern.compile("\\[(.*?)\\] \\[(.*?)\\] (.*)");
+        Pattern pattern = Pattern.compile("\\[(.*?)\\] \\[(.*?)\\] (.*)"); // Deixar esse regex para melhor compreensão das mensagens mesmo
         Matcher matcher = pattern.matcher(line);
         if (matcher.matches()) {
             try {
