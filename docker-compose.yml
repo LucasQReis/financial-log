@@ -33,7 +33,28 @@ services:
     build: .
     depends_on:
       - kafka
+      - db
     ports:
       - "8081:8080"
     environment:
       - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/financialdb?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+  db:
+    image: mysql:9.3.0
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: financialdb
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+    expose:
+      - "3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+volumes:
+  mysql_data:
