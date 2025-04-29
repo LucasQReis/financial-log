@@ -42,6 +42,15 @@ Isso criará o arquivo financial-0.0.1-SNAPSHOT.jar dentro da pasta target. Com 
 
 - docker-compose up -d
 
+---
+
+### Futuras Melhorias
+- Segurança e Autenticação com Spring Security e JWT
+- Filtros e buscas avançadas
+- Testes
+
+---
+
 ### Desenvolvimento e contribuições
 Este projeto ainda está em fase de desenvolvimento.
 Funcionalidades, estrutura de código e integração com serviços podem sofrer alterações frequentes.
