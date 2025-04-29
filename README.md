@@ -48,4 +48,5 @@ Funcionalidades, estrutura de código e integração com serviços podem sofrer 
 No momento, o foco principal das melhorias são:
 - Performance, escalabilidade, e confiabilidade do envio e consumo de mensagens financeiras.
 - Evolução do frontend em Angular, construção de um dashboard mais interativo, com visualização em tempo real e uma melhor experiência de usuário.
+  
 Contribuições são bem-vindas! Sinta-se livre para abrir issues ou enviar pull requests.
